@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{BA5606CF-0458-414D-B8DF-541E80DE49B6}</ProjectGuid>
+    <RootNamespace>dxProxyWoVR</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <TargetName>d3d9</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <TargetName>d3d9</TargetName>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_XM_NO_INTRINSICS_;WIN32;_DEBUG;DXPROXYWOVR_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>$(SolutionDir)openvr\headers</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableUAC>false</EnableUAC>
+      <ModuleDefinitionFile>proxydll.def</ModuleDefinitionFile>
+      <AdditionalDependencies>d3dcompiler.lib;d3d9.lib;d3d11.lib;dxgi.lib;detours.lib;openvr_api.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)openvr\lib\win32</AdditionalLibraryDirectories>
+      <DelayLoadDLLs>
+      </DelayLoadDLLs>
+    </Link>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_XM_NO_INTRINSICS_;WIN32;NDEBUG;DXPROXYWOVR_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>$(SolutionDir)openvr\headers</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableUAC>false</EnableUAC>
+      <ModuleDefinitionFile>proxydll.def</ModuleDefinitionFile>
+      <AdditionalLibraryDirectories>$(SolutionDir)openvr\lib\win32</AdditionalLibraryDirectories>
+      <AdditionalDependencies>d3dcompiler.lib;d3d9.lib;d3d11.lib;dxgi.lib;openvr_api.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="accountInformation.h" />
+    <ClInclude Include="cIDirect3D9.h" />
+    <ClInclude Include="cIDirect3DDevice9.h" />
+    <ClInclude Include="clsKeyboard.h" />
+    <ClInclude Include="clsMemManager.h" />
+    <ClInclude Include="cRenderObject.h" />
+    <ClInclude Include="cShaderData.h" />
+    <ClInclude Include="dx9Debug.h" />
+    <ClInclude Include="game_extras.h" />
+    <ClInclude Include="monitorLayout.h" />
+    <ClInclude Include="OSK.h" />
+    <ClInclude Include="proxydll.h" />
+    <ClInclude Include="simpleVR.h" />
+    <ClInclude Include="stBasicTexture.h" />
+    <ClInclude Include="stCommon.h" />
+    <ClInclude Include="stDX11.h" />
+    <ClInclude Include="steamVR.h" />
+    <ClInclude Include="uiViewport.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="accountInformation.cpp" />
+    <ClCompile Include="cIDirect3D9.cpp" />
+    <ClCompile Include="cIDirect3DDevice9.cpp" />
+    <ClCompile Include="clsKeyboard.cpp" />
+    <ClCompile Include="clsMemManager.cpp" />
+    <ClCompile Include="cRenderObject.cpp" />
+    <ClCompile Include="cShaderData.cpp" />
+    <ClCompile Include="dx9Debug.cpp" />
+    <ClCompile Include="game_extras.cpp" />
+    <ClCompile Include="OSK.cpp" />
+    <ClCompile Include="PixelShaderColor.cpp" />
+    <ClCompile Include="PixelShaderMask.cpp" />
+    <ClCompile Include="PixelShaderTexture.cpp" />
+    <ClCompile Include="PixelShaderWithMouseDot.cpp" />
+    <ClCompile Include="proxydll.cpp" />
+    <ClCompile Include="RenderCurvedUI.cpp" />
+    <ClCompile Include="RenderMaskUI.cpp" />
+    <ClCompile Include="RenderOSK.cpp" />
+    <ClCompile Include="RenderRayLine.cpp" />
+    <ClCompile Include="RenderSquare.cpp" />
+    <ClCompile Include="simpleVR.cpp" />
+    <ClCompile Include="steamVR.cpp" />
+    <ClCompile Include="VertexShaderColor.cpp" />
+    <ClCompile Include="VertexShaderTexture.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+    <None Include="proxydll.def" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+    <Import Project="..\packages\Detours.4.0.1\build\native\Detours.targets" Condition="Exists('..\packages\Detours.4.0.1\build\native\Detours.targets')" />
+  </ImportGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Detours.4.0.1\build\native\Detours.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Detours.4.0.1\build\native\Detours.targets'))" />
+  </Target>
+</Project>

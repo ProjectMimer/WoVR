@@ -1,0 +1,163 @@
+{
+   "action_manifest_version" : 0,
+   "alias_info" : {},
+   "app_key" : "system.generated.wow.exe",
+   "bindings" : {
+      "/actions/game" : {
+         "poses" : [
+            {
+               "output" : "none",
+               "path" : "/user/hand/left/pose/base"
+            },
+            {
+               "output" : "none",
+               "path" : "/user/hand/right/pose/base"
+            },
+            {
+               "output" : "none",
+               "path" : "/user/hand/left/pose/handgrip"
+            },
+            {
+               "output" : "none",
+               "path" : "/user/hand/right/pose/handgrip"
+            },
+            {
+               "output" : "/actions/game/in/lefthand",
+               "path" : "/user/hand/left/pose/tip"
+            },
+            {
+               "output" : "/actions/game/in/righthand",
+               "path" : "/user/hand/right/pose/tip"
+            }
+         ],
+         "haptics": [
+			{
+				"path": "/user/hand/left/output/haptic",
+				"output": "/actions/game/out/haptic_left"
+			},
+			{
+				"path": "/user/hand/right/output/haptic",
+				"output": "/actions/game/out/haptic_right"
+			}
+		],
+         "sources" : [
+            {
+               "inputs" : {
+                  "click" : {
+                     "output" : "/actions/game/in/left_stick_click"
+                  },
+                  "position" : {
+                     "output" : "/actions/game/in/movement"
+                  }
+               },
+               "mode" : "joystick",
+               "path" : "/user/hand/left/input/joystick"
+            },
+            {
+               "inputs" : {
+                  "click" : {
+                     "output" : "/actions/game/in/right_stick_click"
+                  },
+                  "position" : {
+                     "output" : "/actions/game/in/rotate"
+                  }
+               },
+               "mode" : "joystick",
+               "path" : "/user/hand/right/input/joystick"
+            },
+            {
+               "inputs" : {
+                  "click" : {
+                     "output" : "/actions/game/in/button_a"
+                  }
+               },
+               "mode" : "button",
+               "path" : "/user/hand/right/input/a"
+            },
+            {
+               "inputs" : {
+                  "click" : {
+                     "output" : "/actions/game/in/button_b"
+                  }
+               },
+               "mode" : "button",
+               "path" : "/user/hand/right/input/b"
+            },
+            {
+               "inputs" : {
+                  "click" : {
+                     "output" : "/actions/game/in/button_x"
+                  }
+               },
+               "mode" : "button",
+               "path" : "/user/hand/left/input/x"
+            },
+            {
+               "inputs" : {
+                  "click" : {
+                     "output" : "/actions/game/in/button_y"
+                  },
+                  "held" : {
+                     "output" : "/actions/game/in/recenter"
+                  }
+               },
+               "mode" : "button",
+               "path" : "/user/hand/left/input/y"
+            },
+            {
+               "inputs" : {},
+               "mode" : "none",
+               "path" : "/user/hand/left/input/skeleton/left"
+            },
+            {
+               "inputs" : {},
+               "mode" : "none",
+               "path" : "/user/hand/right/input/skeleton/right"
+            },
+            {
+               "inputs" : {
+                  "pull" : {
+                     "output" : "/actions/game/in/left_bumper"
+                  }
+               },
+               "mode" : "trigger",
+               "path" : "/user/hand/left/input/grip"
+            },
+            {
+               "inputs" : {
+                  "pull" : {
+                     "output" : "/actions/game/in/left_trigger"
+                  }
+               },
+               "mode" : "trigger",
+               "path" : "/user/hand/left/input/trigger"
+            },
+            {
+               "inputs" : {
+                  "pull" : {
+                     "output" : "/actions/game/in/right_trigger"
+                  }
+               },
+               "mode" : "trigger",
+               "path" : "/user/hand/right/input/trigger"
+            },
+            {
+               "inputs" : {
+                  "pull" : {
+                     "output" : "/actions/game/in/right_bumper"
+                  }
+               },
+               "mode" : "trigger",
+               "path" : "/user/hand/right/input/grip"
+            }
+         ]
+      }
+   },
+   "category" : "steamvr_input",
+   "controller_type" : "oculus_touch",
+   "description" : "",
+   "interaction_profile" : "",
+   "name" : "Oculus Touchコントローラー用に保存されたWow設定",
+   "options" : {},
+   "simulated_actions" : []
+}

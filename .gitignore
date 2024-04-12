@@ -1,0 +1,9 @@
+.git/
+.vs/
+bin
+obj
+release
+debug
+packages
+openvr
+sym_openvr.bat

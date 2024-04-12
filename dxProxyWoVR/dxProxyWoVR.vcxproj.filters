@@ -1,0 +1,165 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="cIDirect3D9.cpp">
+      <Filter>dll\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cIDirect3DDevice9.cpp">
+      <Filter>dll\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="dx9Debug.cpp">
+      <Filter>dll\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="proxydll.cpp">
+      <Filter>dll\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="clsKeyboard.cpp">
+      <Filter>game_extras\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cRenderObject.cpp">
+      <Filter>game_extras\RenderObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="cShaderData.cpp">
+      <Filter>game_extras\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="game_extras.cpp">
+      <Filter>game_extras\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="OSK.cpp">
+      <Filter>game_extras\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PixelShaderColor.cpp">
+      <Filter>game_extras\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="PixelShaderMask.cpp">
+      <Filter>game_extras\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="PixelShaderTexture.cpp">
+      <Filter>game_extras\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="PixelShaderWithMouseDot.cpp">
+      <Filter>game_extras\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderCurvedUI.cpp">
+      <Filter>game_extras\RenderObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderMaskUI.cpp">
+      <Filter>game_extras\RenderObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderOSK.cpp">
+      <Filter>game_extras\RenderObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderRayLine.cpp">
+      <Filter>game_extras\RenderObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderSquare.cpp">
+      <Filter>game_extras\RenderObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="simpleVR.cpp">
+      <Filter>game_extras\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="steamVR.cpp">
+      <Filter>game_extras\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="VertexShaderColor.cpp">
+      <Filter>game_extras\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="VertexShaderTexture.cpp">
+      <Filter>game_extras\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="accountInformation.cpp">
+      <Filter>game_extras\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="clsMemManager.cpp">
+      <Filter>game_extras\Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="cIDirect3D9.h">
+      <Filter>dll\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cIDirect3DDevice9.h">
+      <Filter>dll\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dx9Debug.h">
+      <Filter>dll\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="proxydll.h">
+      <Filter>dll\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="accountInformation.h">
+      <Filter>game_extras\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="clsKeyboard.h">
+      <Filter>game_extras\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="game_extras.h">
+      <Filter>game_extras\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="monitorLayout.h">
+      <Filter>game_extras\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OSK.h">
+      <Filter>game_extras\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="simpleVR.h">
+      <Filter>game_extras\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="stBasicTexture.h">
+      <Filter>game_extras\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="stCommon.h">
+      <Filter>game_extras\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="stDX11.h">
+      <Filter>game_extras\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="steamVR.h">
+      <Filter>game_extras\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="uiViewport.h">
+      <Filter>game_extras\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cRenderObject.h">
+      <Filter>game_extras\RenderObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="cShaderData.h">
+      <Filter>game_extras\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="clsMemManager.h">
+      <Filter>game_extras\Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="dll">
+      <UniqueIdentifier>{67d355bc-0f8d-43be-af24-6538b79b1dd7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="dll\Header Files">
+      <UniqueIdentifier>{ce02bf33-3acc-491a-b6c3-7f12a00b410b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="dll\Source Files">
+      <UniqueIdentifier>{122d75d0-f63c-4d77-886a-4ebd7deb858a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="game_extras">
+      <UniqueIdentifier>{5a5e5406-3255-4e74-bcee-c5d4dd59e8b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="game_extras\Header Files">
+      <UniqueIdentifier>{fa2a7d75-927b-4331-ae0c-6e15bbbc6c2f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="game_extras\Source Files">
+      <UniqueIdentifier>{8f0ac125-46ab-4a16-aaca-b9998c6948d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="game_extras\RenderObjects">
+      <UniqueIdentifier>{38612901-607c-4a50-8476-820dae72e129}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="game_extras\Shaders">
+      <UniqueIdentifier>{6a909f81-4274-4c07-8bb3-65bc064d7795}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="proxydll.def">
+      <Filter>dll\Source Files</Filter>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+</Project>

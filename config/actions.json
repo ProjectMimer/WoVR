@@ -1,0 +1,112 @@
+{
+   "action_sets" : [
+      {
+        "name" : "/actions/game",
+        "usage" : "leftright"
+      }
+   ],
+   "actions" : [
+      {
+        "name" : "/actions/game/in/movement",
+        "requirement" : "mandatory",
+        "type" : "vector2"
+      },
+      {
+        "name" : "/actions/game/in/rotate",
+        "requirement" : "mandatory",
+        "type" : "vector2"
+      },
+      {
+        "name" : "/actions/game/in/lefthand",
+        "type" : "pose"
+      },
+      {
+        "name" : "/actions/game/in/righthand",
+        "type" : "pose"
+      },
+      {
+        "name" : "/actions/game/in/button_y",
+        "type" : "boolean"
+      },
+      {
+        "name" : "/actions/game/in/button_x",
+        "type" : "boolean"
+      },
+      {
+        "name" : "/actions/game/in/button_a",
+        "type" : "boolean"
+      },
+      {
+        "name" : "/actions/game/in/button_b",
+        "type" : "boolean"
+      },
+      {
+        "name" : "/actions/game/in/left_trigger",
+        "type" : "vector1"
+      },
+      {
+        "name" : "/actions/game/in/left_bumper",
+        "type" : "vector1"
+      },
+      {
+        "name" : "/actions/game/in/left_stick_click",
+        "type" : "boolean"
+      },
+      {
+        "name" : "/actions/game/in/right_trigger",
+        "type" : "vector1"
+      },
+      {
+        "name" : "/actions/game/in/right_bumper",
+        "type" : "vector1"
+      },
+      {
+        "name" : "/actions/game/in/right_stick_click",
+        "type" : "boolean"
+      },
+      {
+        "name" : "/actions/game/in/menu_start",
+        "type" : "boolean"
+      },
+      {
+        "name" : "/actions/game/in/menu_select",
+        "type" : "boolean"
+      },
+      {
+        "name" : "/actions/game/out/haptic_left",
+        "type" : "vibration"
+      },
+      {
+        "name" : "/actions/game/out/haptic_right",
+        "type" : "vibration"
+      }
+   ],
+   "default_bindings" : [
+	{
+        "binding_url" : "actions_touch.json",
+        "controller_type" : "oculus_touch"
+    }
+   ],
+   "localization" : [
+      {
+        "/actions/game" : "InGame",
+        "/actions/game/in/movement" : "Movement",
+        "/actions/game/in/rotate" : "Rotate",
+        "/actions/game/in/button_y" : "Button Y",
+		"/actions/game/in/button_x" : "Button X",
+        "/actions/game/in/button_a" : "Button A",
+        "/actions/game/in/button_b" : "Button B",
+        "/actions/game/in/left_trigger" : "Left Trigger",
+        "/actions/game/in/left_bumper" : "Left Bumper",
+		"/actions/game/in/left_stick_click" : "Left Stick Click",
+		"/actions/game/in/right_trigger" : "Right Trigger",
+        "/actions/game/in/right_bumper" : "Right Bumper",
+		"/actions/game/in/right_stick_click" : "Right Stick Click",
+        "/actions/game/in/menu_start" : "Start",
+		"/actions/game/in/menu_select" : "Select",
+		"/actions/game/out/haptic_left" : "Haptic Left",
+		"/actions/game/out/haptic_right" : "Haptic Right",
+		"language_tag" : "en"
+      }
+   ]
+}

@@ -1,0 +1,171 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="dll">
+      <UniqueIdentifier>{c948d854-6164-40e7-a42a-f54577f63ab1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="dll\Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="dll\Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="game_extras">
+      <UniqueIdentifier>{b3431aeb-ba12-43bb-b118-2dcda834943c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="game_extras\Header FIles">
+      <UniqueIdentifier>{23df4859-69c9-4dc5-a211-13d77b3be978}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="game_extras\Source FIles">
+      <UniqueIdentifier>{340930da-7168-4135-931a-9a72c9ecc765}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="game_extras\RenderObjects">
+      <UniqueIdentifier>{4a2035df-11f0-46dc-b3b7-9a41c197defa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="game_extras\Shaders">
+      <UniqueIdentifier>{3a2bf9b9-c775-47a8-a24c-a24cb959f006}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="proxydll.h">
+      <Filter>dll\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cIDirect3D9.h">
+      <Filter>dll\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cIDirect3DDevice9.h">
+      <Filter>dll\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="game_extras.h">
+      <Filter>game_extras\Header FIles</Filter>
+    </ClInclude>
+    <ClInclude Include="stCommon.h">
+      <Filter>game_extras\Header FIles</Filter>
+    </ClInclude>
+    <ClInclude Include="stDX11.h">
+      <Filter>game_extras\Header FIles</Filter>
+    </ClInclude>
+    <ClInclude Include="simpleVR.h">
+      <Filter>game_extras\Header FIles</Filter>
+    </ClInclude>
+    <ClInclude Include="stBasicTexture.h">
+      <Filter>game_extras\Header FIles</Filter>
+    </ClInclude>
+    <ClInclude Include="cRenderObject.h">
+      <Filter>game_extras\RenderObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="cShaderData.h">
+      <Filter>game_extras\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="steamVR.h">
+      <Filter>game_extras\Header FIles</Filter>
+    </ClInclude>
+    <ClInclude Include="clsKeyboard.h">
+      <Filter>game_extras\Header FIles</Filter>
+    </ClInclude>
+    <ClInclude Include="OSK.h">
+      <Filter>game_extras\Header FIles</Filter>
+    </ClInclude>
+    <ClInclude Include="uiViewport.h">
+      <Filter>game_extras\Header FIles</Filter>
+    </ClInclude>
+    <ClInclude Include="dx9Debug.h">
+      <Filter>dll\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="accountInformation.h">
+      <Filter>game_extras\Header FIles</Filter>
+    </ClInclude>
+    <ClInclude Include="monitorLayout.h">
+      <Filter>game_extras\Header FIles</Filter>
+    </ClInclude>
+    <ClInclude Include="clsMemManager.h">
+      <Filter>game_extras\Header FIles</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="proxydll.cpp">
+      <Filter>dll\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cIDirect3D9.cpp">
+      <Filter>dll\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cIDirect3DDevice9.cpp">
+      <Filter>dll\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="game_extras.cpp">
+      <Filter>game_extras\Source FIles</Filter>
+    </ClCompile>
+    <ClCompile Include="simpleVR.cpp">
+      <Filter>game_extras\Source FIles</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderCurvedUI.cpp">
+      <Filter>game_extras\RenderObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="cRenderObject.cpp">
+      <Filter>game_extras\RenderObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="cShaderData.cpp">
+      <Filter>game_extras\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="VertexShaderTexture.cpp">
+      <Filter>game_extras\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="PixelShaderWithMouseDot.cpp">
+      <Filter>game_extras\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderSquare.cpp">
+      <Filter>game_extras\RenderObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="PixelShaderColor.cpp">
+      <Filter>game_extras\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="VertexShaderColor.cpp">
+      <Filter>game_extras\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="steamVR.cpp">
+      <Filter>game_extras\Source FIles</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderRayLine.cpp">
+      <Filter>game_extras\RenderObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="clsKeyboard.cpp">
+      <Filter>game_extras\Source FIles</Filter>
+    </ClCompile>
+    <ClCompile Include="PixelShaderTexture.cpp">
+      <Filter>game_extras\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="OSK.cpp">
+      <Filter>game_extras\Source FIles</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderOSK.cpp">
+      <Filter>game_extras\RenderObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="dx9Debug.cpp">
+      <Filter>dll\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="accountInformation.cpp">
+      <Filter>game_extras\Source FIles</Filter>
+    </ClCompile>
+    <ClCompile Include="clsMemManager.cpp">
+      <Filter>game_extras\Source FIles</Filter>
+    </ClCompile>
+    <ClCompile Include="PixelShaderMask.cpp">
+      <Filter>game_extras\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderMaskUI.cpp">
+      <Filter>game_extras\RenderObjects</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="proxydll.def">
+      <Filter>dll\Source Files</Filter>
+    </None>
+    <None Include="$(OpenXRLoaderBinaryRoot)\bin\openxr_loader.dll" />
+  </ItemGroup>
+</Project>
