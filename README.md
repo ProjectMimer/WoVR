@@ -87,40 +87,76 @@ Testing: Falandorn
 
 • Controls • 
 EG = When either grip is held
+
 LG = When left  grip is held
+
 RG = When right grip is held
 
+
 Left hand angle
+
 → Controls direction of movement, flying and swimming
+
 Left Analogue Stick 
+
 → Character Movement
+
 Left Trigger
+
 → Next Action Set
+
 →LG→ Previous Action Set
+
 Left Stick Click
+
 → Random Mount (a specific flying and ground mount can be set in config.txt)
+
 →EG→ 1 Key
+
 X Button
+
 → Esc key
+
 →EG→ 2 Key　
+
 Y Button
+
 → Toggles Map
+
 →EG→ 3 Key
 
+
 Right hand angle
+
 → Controls ray into world, used for targeting aiming and UI interaction
+
 Right Analogue Stick 
+
 → Camera Controls (Snap turning)
+
 →LG→ Camera Zoom
+
 Right Trigger
+
 → Left click
+
 →RG→ Right Click
+
 Right Stick Click
+
 → Toggle between first and third person & camera recenter
+
 →EG→ 0 Key
+
 B Button
+
 → Selects next target
+
 →EG→ 9 Key　
+
 A Button
+
 → Jump
+
 →EG→ 8 Key
+
