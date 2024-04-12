@@ -5,7 +5,7 @@ This mod is a experimental release intended to be played seated with VR motion c
 Currently we do not have plans for active continued development, if there is enough support and interested from the community we could look into first person mount visibility and player character IK.
 
 This software and code is provided as is, use at your own risk; we are not liable for damages caused.
-For install instructions and support please visit our section on the flat2vr.com discord.
+For install instructions and support please visit our section on the [flat2vr.com](https://flat2vr.com) discord.
 
 WoVR has been in on and off development for over ten years, it originally started development as a mod for the Oculus DK1 back in 2013.
 In January 2024 after a 4 year long hiatus we decided to restart development from scratch with everything we learned from creating XIVR.
