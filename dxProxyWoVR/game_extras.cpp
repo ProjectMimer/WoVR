@@ -31,6 +31,7 @@ simpleVR* svr = new simpleVR(false);
 stMonitorLayout monitors;
 stScreenLayout screenLayout = stScreenLayout();
 POINT hmdBufferSize = { 0, 0 };
+POINT uiBufferSize = { 0, 0 };
 
 stBasicTexture BackBuffer11[6] = { stBasicTexture(), stBasicTexture(), stBasicTexture(), stBasicTexture(), stBasicTexture(), stBasicTexture() };
 stBasicTexture DepthBuffer11[6] = { stBasicTexture(), stBasicTexture(), stBasicTexture(), stBasicTexture(), stBasicTexture(), stBasicTexture() };
@@ -58,6 +59,8 @@ int oskRenderCount = -1;
 bool showOSK = true;
 bool oldOSK = true;
 bool isRunningAsAdmin = false;
+bool defaultCutupResolution = false;
+
 
 stBasicTexture9 handWatchList[] = {
     stBasicTexture9(), stBasicTexture9(),
@@ -157,7 +160,8 @@ float cfg_uiOffsetY = 0.0;
 float cfg_uiOffsetD = -0.943f;
 int cfg_flyingMountID = 0;
 int cfg_groundMountID = 0;
-bool cfg_doCutUICopy = false;
+int cfg_hmdOnward = 0;
+int cfg_uiMultiplier = 3;
 inputController input = {}; //{ { 0, 0, 0, 0, 0, 0, 0, 0, 0 } };
 
 //----
@@ -328,7 +332,8 @@ void writeConfigFile()
         cfgFile << "uiOffsetD: " << cfg_uiOffsetD << std::endl;
         cfgFile << "flyingMountID: " << cfg_flyingMountID << std::endl;
         cfgFile << "groundMountID: " << cfg_groundMountID << std::endl;
-        cfgFile << "doCutUICopy: " << cfg_doCutUICopy << std::endl;
+        cfgFile << "hmdOnward: " << cfg_hmdOnward << std::endl;
+        cfgFile << "uiMultiplier: " << cfg_uiMultiplier << std::endl;
         cfgFile.close();
     }
     else
@@ -358,7 +363,8 @@ void readConfigFile()
     std::string s_cfg_uiOffsetD = "";
     std::string s_cfg_flyingMountID = "";
     std::string s_cfg_groundMountID = "";
-    std::string s_cfg_doCutUICopy = "";
+    std::string s_cfg_hmdOnward = "";
+    std::string s_cfg_uiMultiplier = "";
 
     cfgFile.open(g_CONFIG_FILE);
     if (cfgFile.is_open())
@@ -377,7 +383,8 @@ void readConfigFile()
         std::getline(cfgFile, s_cfg_uiOffsetD);
         std::getline(cfgFile, s_cfg_flyingMountID);
         std::getline(cfgFile, s_cfg_groundMountID);
-        std::getline(cfgFile, s_cfg_doCutUICopy);
+        std::getline(cfgFile, s_cfg_hmdOnward);
+        std::getline(cfgFile, s_cfg_uiMultiplier);
         cfgFile.close();
 
         //----
@@ -394,7 +401,8 @@ void readConfigFile()
         s_cfg_uiOffsetD.erase(0, s_cfg_uiOffsetD.find(": ") + 2);
         s_cfg_flyingMountID.erase(0, s_cfg_flyingMountID.find(": ") + 2);
         s_cfg_groundMountID.erase(0, s_cfg_groundMountID.find(": ") + 2);
-        s_cfg_doCutUICopy.erase(0, s_cfg_doCutUICopy.find(": ") + 2);
+        s_cfg_hmdOnward.erase(0, s_cfg_hmdOnward.find(": ") + 2);
+        s_cfg_uiMultiplier.erase(0, s_cfg_uiMultiplier.find(": ") + 2);
 
         //----
         // set the config options
@@ -410,7 +418,8 @@ void readConfigFile()
         cfg_uiOffsetD = std::stof(s_cfg_uiOffsetD);
         cfg_flyingMountID = std::stoi(s_cfg_flyingMountID);
         cfg_groundMountID = std::stoi(s_cfg_groundMountID);
-        cfg_doCutUICopy = s_cfg_doCutUICopy != "0";
+        cfg_hmdOnward = std::stoi(s_cfg_hmdOnward);
+        cfg_uiMultiplier = std::stoi(s_cfg_uiMultiplier);
 
         //hiddenTexture = (IDirect3DTexture9*)std::stol(s_cfg_groundMountID, NULL, 16);
     }
@@ -446,15 +455,6 @@ void CreateTextures(ID3D11Device* devDX11, IDirect3DDevice9* devDX9, POINT textu
             logError << DepthBuffer[i].GetErrors();
 
     }
-    /*
-    mainRenderBuffer.SetWidthHeight(textureSize.x, textureSize.y);
-    if (!mainRenderBuffer.Create(devDX9, false, true, false, false))
-        logError << mainRenderBuffer.GetErrors();
-    mainDepthBuffer.SetWidthHeight(textureSize.x, textureSize.y);
-    mainDepthBuffer.renderFormat = D3DFMT_D24X8;
-    if (!mainDepthBuffer.Create(devDX9, false, false, true, false))
-        logError << mainDepthBuffer.GetErrors();
-    */
 
     uiRender.SetWidthHeight(textureSizeUI.x, textureSizeUI.y);
     if(!uiRender.Create(devDX9, false, true, false, false))
@@ -582,7 +582,6 @@ int setViewPorts(IDirect3DDevice9* devDX9, int tWidth, int tHeight, std::vector<
     }
     else if (type == 1)
     {
-        
         std::vector<RECT> coords = std::vector<RECT>(12);
         coords.at(uiCutupLayout::characterScreen)   = { 1, 1, 337, 339 };
         coords.at(uiCutupLayout::handActionbar)     = { 1, 341, 147, 499 };
@@ -650,7 +649,8 @@ bool CreateBuffers(IDirect3DDevice9* devDX9, POINT textureSizeUI)
 
     doCutUI = false;
     std::vector<uiViewport> uiView = std::vector<uiViewport>();
-    if ((textureSizeUI.x / 96.0f) == (textureSizeUI.y / 25.0f))
+    //if ((textureSizeUI.x / 96.0f) == (textureSizeUI.y / 25.0f))
+    if(defaultCutupResolution || ((textureSizeUI.x / 96.0f) == (textureSizeUI.y / 25.0f)))
     {
         doCutUI = true;
         numViewPortsUI = setViewPorts(devDX9, textureSizeUI.x, textureSizeUI.y, &uiViewUI, 0);
@@ -870,8 +870,6 @@ void (msub_684D70)(int a, int b, int c)
 {
     //if(doLog) logError << "CalcWindowSize Pre : " << *(int*)(c + 0x0) << " : " << *(int*)(c + 0x4) << " : " << *(int*)(c + 0x8) << " : " << *(int*)(c + 0xC) << std::endl;
 
-    wtfSize.x = *(int*)(c + 0x8);
-    wtfSize.y = *(int*)(c + 0xC);
     RECT sizePre = { *(int*)(c + 0x0), *(int*)(c + 0x4), *(int*)(c + 0x8), *(int*)(c + 0xC) };
 
     sub_684D70(a, b, c);
@@ -909,16 +907,17 @@ void(__fastcall msub_6A08D0)(void* ecx, void* edx, int a)
     int yOffset = 0;// -(wtfSize.y / 2.0f);
     *(float*)((int)ecx + 0x16C) = wtfSize.y;
     *(float*)((int)ecx + 0x170) = wtfSize.x;
+    *(float*)((int)ecx + 0x17C) = wtfSize.y;
+    *(float*)((int)ecx + 0x180) = wtfSize.x;
 
     //----
     // Calculate the window border difference and resize the window to the given size
     //----
-
     HWND hWnd = *(HWND*)((int)ecx + 0x3968);
-    RECT rcClient, rcWind;
-    GetClientRect(hWnd, &rcClient);
-    GetWindowRect(hWnd, &rcWind);
-    POINT diff = { (rcWind.right - rcWind.left) - rcClient.right, (rcWind.bottom - rcWind.top) - rcClient.bottom };
+    //RECT rcClient, rcWind;
+    //GetClientRect(hWnd, &rcClient);
+    //GetWindowRect(hWnd, &rcWind);
+    //POINT diff = { (rcWind.right - rcWind.left) - rcClient.right, (rcWind.bottom - rcWind.top) - rcClient.bottom };
     SetWindowLongA(hWnd, GWL_STYLE, GetWindowLongA(hWnd, GWL_STYLE) & ~(WS_BORDER | WS_SIZEBOX | WS_DLGFRAME));
     SetWindowPos(hWnd, 0, xOffset, yOffset, wtfSize.x, wtfSize.y, SWP_NOACTIVATE | SWP_NOZORDER | SWP_FRAMECHANGED | SWP_NOSENDCHANGING);
 
@@ -931,6 +930,19 @@ bool(__thiscall* sub_6A2040)(void*, int) = (bool(__thiscall*)(void*, int))0x006A
 bool(__fastcall msub_6A2040)(void* ecx, void* edx, int a)
 {
     //if (doLog) logError << "-- Create DX Device" << std::endl;
+    wtfSize.x = *(int*)(a + 0x14);
+    wtfSize.y = *(int*)(a + 0x18);
+
+    defaultCutupResolution = false;
+    if (wtfSize.x == 1824 && wtfSize.y == 475)
+    {
+        float recountOmenPercent = 1.0f - (1696.0f / 1920.f);
+
+        defaultCutupResolution = true;
+        POINT primarySize = monitors.GetPrimarySize();
+        wtfSize.x = primarySize.x * (1.0f + recountOmenPercent);
+        wtfSize.y = (wtfSize.x / 1824.0f) * 475;
+    }
 
     bool retVal = sub_6A2040(ecx, a);
 
@@ -941,25 +953,16 @@ bool(__fastcall msub_6A2040)(void* ecx, void* edx, int a)
     if (svr->isEnabled())
     {
         //----
-        // Gets the newly created dx device
+        // Gets the newly created dx device and layout
         //----
-        int dxLoc = *(int*)(0x0C5DF88);
-        dxLoc = *(int*)(dxLoc + 0x397C);
-        devDX9 = (IDirect3DDevice9*)(dxLoc);
-
-        D3DDEVICE_CREATION_PARAMETERS cparams;
-        devDX9->GetCreationParameters(&cparams);
-        screenLayout.hwnd = cparams.hFocusWindow;
-
-        RECT cliRec;
-        ZeroMemory(&cliRec, sizeof(RECT));
-        GetClientRect(cparams.hFocusWindow, &cliRec);
-        screenLayout.width = cliRec.right - cliRec.left;
-        screenLayout.height = cliRec.bottom - cliRec.top;
+        devDX9 = (IDirect3DDevice9*)(*(int*)((int)ecx + 0x397C));
+        screenLayout.hwnd = *(HWND*)((int)ecx + 0x3968);
+        screenLayout.width = wtfSize.x;
+        screenLayout.height = wtfSize.y;
         screenLayout.haveLayout = true;
 
         readConfigFile();
-        CutupAddonFilesCopy(g_VR_PATH, cfg_doCutUICopy);
+        CutupAddonFilesCopy(g_VR_PATH);
 
         //----
         // Saves the origional back and depth buffers
@@ -981,10 +984,10 @@ bool(__fastcall msub_6A2040)(void* ecx, void* edx, int a)
         devDX11.createDevice();
         logError << devDX11.GetErrors();
 
-        POINT textureSizeUI = { screenLayout.width, screenLayout.height };
+        uiBufferSize = { screenLayout.width * cfg_uiMultiplier, screenLayout.height * cfg_uiMultiplier };
         CreateShaders(devDX9);
-        CreateBuffers(devDX9, textureSizeUI);
-        CreateTextures(devDX11.dev, devDX9, hmdBufferSize, textureSizeUI);
+        CreateBuffers(devDX9, uiBufferSize);
+        CreateTextures(devDX11.dev, devDX9, hmdBufferSize, uiBufferSize);
         /*
         if (doLog)
         {
@@ -1028,6 +1031,8 @@ void(__fastcall msub_6A1F40)(void* ecx, void* edx)
 {
     if (svr->isEnabled())
     {
+        svr->StopVR();
+
         RunOSKDisable();
 
         DestroyTextures();
@@ -1035,8 +1040,6 @@ void(__fastcall msub_6A1F40)(void* ecx, void* edx)
         DestroyShaders();
 
         devDX11.Release();
-        
-        svr->StopVR();
     }
     sub_6A1F40(ecx);
     //if (doLog) logError << "-- Close DX Device" << std::endl;
@@ -1191,18 +1194,17 @@ void(__fastcall msub_495410)(void* ecx, void* edx)
 
         uViewport.X = 0;
         uViewport.Y = 0;
-        uViewport.Width = screenLayout.width;
-        uViewport.Height = screenLayout.height;
+        uViewport.Width = uiBufferSize.x;
+        uViewport.Height = uiBufferSize.y;
         uViewport.MinZ = 0.0f;
         uViewport.MaxZ = 1.0f;
 
         mViewport.X = 0;
         mViewport.Y = 0;
-        mViewport.Width = screenLayout.width / 4;
-        mViewport.Height = screenLayout.height / 4;
+        mViewport.Width = uiBufferSize.x / 4;
+        mViewport.Height = uiBufferSize.y / 4;
         mViewport.MinZ = 0.0f;
         mViewport.MaxZ = 1.0f;
-
 
         int playerObj = ClntObjMgrGetActivePlayerObj();
 
@@ -1632,10 +1634,10 @@ void RunFrameUpdate()
         {
             uiView->at(i).setBufferStart((i * 6));
 
-            float uv[] = { uiView->at(i).position.left / (float)(screenLayout.width),
-                            uiView->at(i).position.top / (float)(screenLayout.height),
-                            uiView->at(i).position.right / (float)(screenLayout.width),
-                            uiView->at(i).position.bottom / (float)(screenLayout.height),
+            float uv[] = { uiView->at(i).position.left / (float)(uiBufferSize.x),
+                            uiView->at(i).position.top / (float)(uiBufferSize.y),
+                            uiView->at(i).position.right / (float)(uiBufferSize.x),
+                            uiView->at(i).position.bottom / (float)(uiBufferSize.y),
             };
 
             float W = (float)(uiView->at(i).position.right - uiView->at(i).position.left);
@@ -1799,8 +1801,8 @@ void RunFrameUpdate()
     //----
     // Go though all interactable items and check to see if the ray interacts with something
     //----
-    int maskWidth = screenLayout.width / 4;
-    int maskHeight = screenLayout.height / 4;
+    int maskWidth = uiBufferSize.x / 4;
+    int maskHeight = uiBufferSize.y / 4;
 
     float dist = -9999;
     intersectLayout closest = intersectLayout();
@@ -2219,7 +2221,7 @@ void RunControllerGame()
         if (vr::VRInput()->GetAnalogActionData(input.game.movement, &analogActionData, sizeof(analogActionData), vr::k_ulInvalidInputValueHandle) == vr::VRInputError_None && analogActionData.bActive == true) {
             static bool lyRunning = false;
             static bool lxRunning = false;
-            
+
             /*if (bumperPressedL && bumperPressedR)
             {
                 uiViewGame.at(cfg_tID).scale.x += (analogActionData.x / 100.f);
@@ -2309,7 +2311,7 @@ void RunControllerGame()
                                 mouse_event(MOUSEEVENTF_WHEEL, 0, 0, 2, 0);
                             else if (analogActionData.y > 0.25f)
                                 mouse_event(MOUSEEVENTF_WHEEL, 0, 0, 1, 0);
-                            
+
                             else if (analogActionData.y < -0.75f)
                                 mouse_event(MOUSEEVENTF_WHEEL, 0, 0, -2, 0);
                             else if (analogActionData.y < -0.25f)
@@ -2318,17 +2320,22 @@ void RunControllerGame()
                     }
                     else
                     {
+                        //----
+                        // if in first person, dont zoom in or out with stick movement
+                        //---
                         float zoomLevel = *(float*)(camera + 0x118);
-
-                        if (analogActionData.y > 0.25f)
+                        if (zoomLevel != 0)
                         {
-                            *(float*)(camera + 0x118) = std::fminf(std::fmaxf(0.0f, zoomLevel - (abs(analogActionData.y - 0.25f) / 2.0f)), 50.0f);
-                            *(float*)(camera + 0x1E8) = std::fminf(std::fmaxf(0.0f, zoomLevel - (abs(analogActionData.y - 0.25f) / 2.0f)), 50.0f);
-                        }
-                        else if (analogActionData.y < -0.25f)
-                        {
-                            *(float*)(camera + 0x118) = std::fminf(std::fmaxf(0.0f, zoomLevel + (abs(analogActionData.y - -0.25f) / 2.0f)), 50.0f);
-                            *(float*)(camera + 0x1E8) = std::fminf(std::fmaxf(0.0f, zoomLevel + (abs(analogActionData.y - -0.25f) / 2.0f)), 50.0f);
+                            if (analogActionData.y > 0.25f)
+                            {
+                                *(float*)(camera + 0x118) = std::fminf(std::fmaxf(1.0f, zoomLevel - (abs(analogActionData.y - 0.25f) / 2.0f)), 50.0f);
+                                *(float*)(camera + 0x1E8) = std::fminf(std::fmaxf(1.0f, zoomLevel - (abs(analogActionData.y - 0.25f) / 2.0f)), 50.0f);
+                            }
+                            else if (analogActionData.y < -0.25f)
+                            {
+                                *(float*)(camera + 0x118) = std::fminf(std::fmaxf(1.0f, zoomLevel + (abs(analogActionData.y - -0.25f) / 2.0f)), 50.0f);
+                                *(float*)(camera + 0x1E8) = std::fminf(std::fmaxf(1.0f, zoomLevel + (abs(analogActionData.y - -0.25f) / 2.0f)), 50.0f);
+                            }
                         }
                     }
                 }
@@ -2360,7 +2367,7 @@ void RunControllerGame()
             {
                 if (bumperPressedL)
                 {
-                    if(leftTriggerL == true)
+                    if (leftTriggerL == true)
                     {
                         leftTriggerL = false;
                         setKeyUp((unsigned int)VK_DOWN);
@@ -2427,16 +2434,15 @@ void RunControllerGame()
                     // Mount / Unmount
                     if (digitalActionData.bState == true && digitalActionData.bChanged == true)
                     {
-                        //cfg_tID = (cfg_tID + 1) % 12;
                         lua_Dismount();
-                        if(cfg_flyingMountID > 0 && mountCount > 0)
+                        if (cfg_flyingMountID > 0 && mountCount > 0)
                             CastSpell(cfg_flyingMountID, 0, 0, 0, 0);
                     }
                     else if (digitalActionData.bState == false && digitalActionData.bChanged == true)
                     {
                         if (cfg_groundMountID > 0 && mountCount > 0)
                             CastSpell(cfg_groundMountID, 0, 0, 0, 0);
-                        else if(mountCount > 0)
+                        else if (mountCount > 0)
                         {
                             int randNum = rand() % mountCount;
                             int mountSpell = *(int*)((*(int*)0xBE8E0C) + (randNum * 4));
@@ -2447,7 +2453,7 @@ void RunControllerGame()
             }
         }
 
-        
+
         if (vr::VRInput()->GetAnalogActionData(input.game.right_trigger, &analogActionData, sizeof(analogActionData), vr::k_ulInvalidInputValueHandle) == vr::VRInputError_None && analogActionData.bActive == true)
         {
             int var = 0;
@@ -2728,7 +2734,7 @@ void RunControllerGame()
         if (haptic_right)
             vr::VRInput()->TriggerHapticVibrationAction(input.game.haptic_right, 0, 0.1f, 1.0f, 0.25f, vr::k_ulInvalidInputValueHandle);
 
-        
+
         bool isFSF = false;
         int objData = 0;
         if (playerObj)
@@ -2740,13 +2746,28 @@ void RunControllerGame()
 
         gRotation += hRotationOffset;
         gCamRotation += hRotationOffset;
-        XMVECTOR angles = GetAngles(matController[0]);
-        XMVECTOR anglesPalm = GetAngles(matControllerPalm[0]);
+        XMVECTOR angles = XMVECTOR();
+        XMVECTOR anglesPalm = XMVECTOR();
 
-        float vRotationValue = -anglesPalm.vector4_f32[0] - 0.2f;
-        setVerticalRotation(vRotationValue);
+        //----
+        // use headbased onward rather than controller
+        //----
+        if ((cfg_hmdOnward & 1) == 1)
+            angles = GetAngles(matHMDPos);
+        else
+            angles = GetAngles(matController[0]);
 
-
+        if ((cfg_hmdOnward & 2) == 2)
+        {
+            anglesPalm = GetAngles(matHMDPos);
+            setVerticalRotation(-anglesPalm.vector4_f32[0]);
+        }
+        else
+        {
+            anglesPalm = GetAngles(matControllerPalm[0]);
+            setVerticalRotation(-anglesPalm.vector4_f32[0] - 0.2f);
+        }
+        
         static float oldOnwardYaw = 0;
         float onwardDiff = 0;
         onwardDiff = angles.vector4_f32[1] - oldOnwardYaw;

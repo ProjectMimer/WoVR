@@ -137,15 +137,38 @@ void CutupAddonModify(std::string accountFullPath, std::vector<std::string> char
     }
 }
 
+POINT ReadPatchDataFile(std::string patchPath)
+{
+    std::ifstream patchFile(patchPath + "patch_id.dat");
+    if (patchFile.is_open())
+    {
+        std::string patchData = "";
+        std::getline(patchFile, patchData);
+        patchData.replace(patchData.find("Release "), sizeof("Release ") - 1, "");
+        
+        int itemSpacer = patchData.find(".");
+        int patchMain = std::stoi(patchData.substr(0, itemSpacer));
+        int patchMin = std::stoi(patchData.substr(itemSpacer + 1));
 
-void CutupAddonFilesCopy(std::string g_VR_PATH, bool cfg_doCutUICopy)
+        patchFile.close();
+
+        return { patchMain, patchMin };
+    }
+    return { 0, 0 };
+}
+
+
+void CutupAddonFilesCopy(std::string g_VR_PATH)
 {
     accountInformation accInfo = accountInformation();
 
     struct stat buffer;
     std::string addonPathFrom = g_VR_PATH + "_files_/";
-    if (stat(addonPathFrom.c_str(), &buffer) == 0 && cfg_doCutUICopy)
+    if (stat(addonPathFrom.c_str(), &buffer) == 0)
     {
+        POINT accVRver = ReadPatchDataFile(addonPathFrom);
+        POINT chrVRver = ReadPatchDataFile(addonPathFrom + "(SERVER_NAME)/(CHARACTER_NAME)/");
+
         bool isDir;
         std::string path;
 
@@ -166,7 +189,8 @@ void CutupAddonFilesCopy(std::string g_VR_PATH, bool cfg_doCutUICopy)
             accInfo.Add(curAccount, path);
 
             std::string accDir = accInfo.getPath(curAccount);
-            if (stat((accDir + "patch_id.dat").c_str(), &buffer) != 0)
+            POINT accVer = ReadPatchDataFile(accDir);
+            if((accVRver.x == accVer.x && accVRver.y > accVer.y) || (accVRver.x > accVer.x))
                 accInfo.doUpdate(curAccount);
 
             //----
@@ -188,11 +212,11 @@ void CutupAddonFilesCopy(std::string g_VR_PATH, bool cfg_doCutUICopy)
                     {
                         std::tie(isDir, path, curChar) = *itCharacter;
                         accInfo.Add(curAccount, curServer, curChar, path);
-
                         charServerList.push_back("[\"" + curChar + " - " + curServer + "\"] = \"VR\",");
 
                         std::string charDir = accInfo.getPath(curAccount, curServer, curChar);
-                        if (stat((charDir + "patch_id.dat").c_str(), &buffer) != 0)
+                        POINT chrVer = ReadPatchDataFile(accDir);
+                        if ((chrVRver.x == chrVer.x && chrVRver.y > chrVer.y) || (chrVRver.x > chrVer.x))
                             accInfo.doUpdate(curAccount, curServer, curChar);
                     }
                 }
@@ -211,9 +235,6 @@ void CutupAddonFilesCopy(std::string g_VR_PATH, bool cfg_doCutUICopy)
                     accountFullPath + "SavedVariables/SatrinaBuffFrame.lua",
                     accountFullPath + "SavedVariables/SatrinaBuffFrame.lua.bak",
             };
-            //----
-            // IS THIS BROKEN?? ^^^^
-            //----
 
             //----
             // unset omen and recount readonly property if they exist

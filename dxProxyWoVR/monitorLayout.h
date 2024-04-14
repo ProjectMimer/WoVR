@@ -10,6 +10,7 @@ struct stMonitorLayout
     std::vector<HMONITOR>  hMonitors;
     std::vector<HDC>       hdcMonitors;
     std::vector<RECT>      rcMonitors;
+    int primary = -1;
 
     static BOOL CALLBACK MonitorEnum(HMONITOR hMon, HDC hdc, LPRECT lprcMonitor, LPARAM pData)
     {
@@ -24,5 +25,19 @@ struct stMonitorLayout
     stMonitorLayout()
     {
         EnumDisplayMonitors(0, 0, MonitorEnum, (LPARAM)this);
+        for (int monitorIndex = 0; monitorIndex < iMonitors.size(); monitorIndex++)
+            if (rcMonitors[monitorIndex].top == 0 && rcMonitors[monitorIndex].left == 0)
+                primary = monitorIndex;
+    }
+
+    POINT GetPrimarySize()
+    {
+        //----
+        // Primary always starts at 0,0 so width,height are always right,bottom
+        //----
+        if(primary > -1)
+            return { rcMonitors[primary].right, rcMonitors[primary].bottom };
+        else
+            return { 0, 0 };
     }
 };

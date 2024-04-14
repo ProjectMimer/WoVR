@@ -185,4 +185,4 @@ struct accountInformation
 };
 
 
-void CutupAddonFilesCopy(std::string g_VR_PATH, bool cfg_doCutUICopy);
+void CutupAddonFilesCopy(std::string g_VR_PATH);
