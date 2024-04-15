@@ -1,3 +1,5 @@
+## •Precompiled versions can be found on the [Flat2VR Discord](http://flat2vr.com)
+
 Epilepsy Warning, during loading screens & the race introduction cutscene textures might flicker
 
 WoVR aims to add VR support to 3.3.5a the last patch of the second expansion of the highly successful MMO initially launched in 2004.
