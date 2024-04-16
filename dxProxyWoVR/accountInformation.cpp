@@ -215,7 +215,7 @@ void CutupAddonFilesCopy(std::string g_VR_PATH)
                         charServerList.push_back("[\"" + curChar + " - " + curServer + "\"] = \"VR\",");
 
                         std::string charDir = accInfo.getPath(curAccount, curServer, curChar);
-                        POINT chrVer = ReadPatchDataFile(accDir);
+                        POINT chrVer = ReadPatchDataFile(charDir);
                         if ((chrVRver.x == chrVer.x && chrVRver.y > chrVer.y) || (chrVRver.x > chrVer.x))
                             accInfo.doUpdate(curAccount, curServer, curChar);
                     }
