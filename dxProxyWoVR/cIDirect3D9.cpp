@@ -127,18 +127,18 @@ HRESULT __stdcall cIDirect3D9::CreateDevice(UINT Adapter, D3DDEVTYPE DeviceType,
 	}*/
 
 	HRESULT hRet;
-	IDirect3DDevice9Ex* ppReturnedDeviceInterfaceEx = NULL;
+	IDirect3DDevice9* ppReturnedDeviceInterfaceRet = NULL;
 	if (pPresentationParameters->Windowed) {
-		hRet = m_pIDirect3D9->CreateDevice(Adapter, DeviceType, hFocusWindow, BehaviorFlags, pPresentationParameters, (IDirect3DDevice9**)&ppReturnedDeviceInterfaceEx);
+		hRet = m_pIDirect3D9->CreateDevice(Adapter, DeviceType, hFocusWindow, BehaviorFlags, pPresentationParameters, &ppReturnedDeviceInterfaceRet);
 	}
 	else {
-		hRet = m_pIDirect3D9->CreateDevice(Adapter, DeviceType, hFocusWindow, BehaviorFlags, pPresentationParameters, (IDirect3DDevice9**)&ppReturnedDeviceInterfaceEx);
+		hRet = m_pIDirect3D9->CreateDevice(Adapter, DeviceType, hFocusWindow, BehaviorFlags, pPresentationParameters, &ppReturnedDeviceInterfaceRet);
 	}
 
 	if (SUCCEEDED(hRet))
 	{
 		//if (doLog) *logError << "CreateDevice Success" << std::endl;
-		glIDirect3DDevice9 = new cIDirect3DDevice9(ppReturnedDeviceInterfaceEx, doLog, logError);
+		glIDirect3DDevice9 = new cIDirect3DDevice9(ppReturnedDeviceInterfaceRet, doLog, logError);
 		if (glIDirect3DDevice9->isSet) {
 			*ppReturnedDeviceInterface = glIDirect3DDevice9;
 		}
@@ -168,16 +168,16 @@ HRESULT __stdcall cIDirect3D9::GetAdapterDisplayModeEx(UINT Adapter, D3DDISPLAYM
 
 HRESULT __stdcall cIDirect3D9::CreateDeviceEx(UINT Adapter, D3DDEVTYPE DeviceType, HWND hFocusWindow, DWORD BehaviorFlags, D3DPRESENT_PARAMETERS* pPresentationParameters, D3DDISPLAYMODEEX* pFullscreenDisplayMode, IDirect3DDevice9Ex** ppReturnedDeviceInterface)
 {
-	extern cIDirect3DDevice9* glIDirect3DDevice9;
+	extern cIDirect3DDevice9Ex* glIDirect3DDevice9Ex;
 
-	IDirect3DDevice9Ex* ppReturnedDeviceInterfaceEx = NULL;
-	HRESULT hRet = m_pIDirect3D9->CreateDeviceEx(Adapter, DeviceType, hFocusWindow, BehaviorFlags, pPresentationParameters, pFullscreenDisplayMode, &ppReturnedDeviceInterfaceEx);
+	IDirect3DDevice9Ex* ppReturnedDeviceInterfaceRetEx = NULL;
+	HRESULT hRet = m_pIDirect3D9->CreateDeviceEx(Adapter, DeviceType, hFocusWindow, BehaviorFlags, pPresentationParameters, pFullscreenDisplayMode, &ppReturnedDeviceInterfaceRetEx);
 	if (SUCCEEDED(hRet))
 	{
 		//if (doLog) *logError << "CreateDeviceEx Success" << std::endl;
-		glIDirect3DDevice9 = new cIDirect3DDevice9(ppReturnedDeviceInterfaceEx, doLog, logError);
-		if (glIDirect3DDevice9->isSet) {
-			*ppReturnedDeviceInterface = glIDirect3DDevice9;
+		glIDirect3DDevice9Ex = new cIDirect3DDevice9Ex(ppReturnedDeviceInterfaceRetEx, doLog, logError);
+		if (glIDirect3DDevice9Ex->isSet) {
+			*ppReturnedDeviceInterface = glIDirect3DDevice9Ex;
 		}
 		else {
 			hRet = 0;

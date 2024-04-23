@@ -119,6 +119,7 @@
     <ClInclude Include="stCommon.h" />
     <ClInclude Include="stDX11.h" />
     <ClInclude Include="steamVR.h" />
+    <ClInclude Include="structures.h" />
     <ClInclude Include="uiViewport.h" />
   </ItemGroup>
   <ItemGroup>

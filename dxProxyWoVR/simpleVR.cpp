@@ -74,28 +74,12 @@ bool simpleVR::PreloadVR()
 	localVRSession = nullptr;
 }
 
-bool simpleVR::StartVR()
+void simpleVR::SetProjection(vr::HmdVector2_t depth)
 {
-	if (!vr::VR_IsHmdPresent())
+	if (depthRange.v[0] != depth.v[0] || depthRange.v[1] != depth.v[1])
 	{
-		//InitalizeVR();
-		_isConnected = false;
-		return _isConnected;
-	}
-	
-	if (_isConnected == false)
-	{
-		vr::EVRInitError eError = vr::VRInitError_None;
-		openVRSession = vr::VR_Init(&eError, vr::VRApplication_Scene);
-		openVRChaperone = vr::VRChaperone();
-		openVRModels = (vr::IVRRenderModels*)vr::VR_GetGenericInterface(vr::IVRRenderModels_Version, &eError);
-		vr::VRCompositor()->SetTrackingSpace(vr::TrackingUniverseSeated);
-
-		depthRange.v[0] = 0.06f;
-		depthRange.v[1] = 1000.0f;
-
-		textureBounds[0] = vr::VRTextureBounds_t();
-		textureBounds[1] = vr::VRTextureBounds_t();
+		depthRange.v[0] = depth.v[0];
+		depthRange.v[1] = depth.v[1];
 
 		if (asymmetricProjection)
 		{
@@ -129,11 +113,9 @@ bool simpleVR::StartVR()
 
 			textureBounds[0] = { 0.0f, 0.0f,  1.0f, 1.0f };
 			textureBounds[1] = { 0.0f, 0.0f,  1.0f, 1.0f };
-
 		}
 		else
 		{
-
 			float lLeft = 0;
 			float lRight = 0;
 			float lTop = 0;
@@ -195,6 +177,29 @@ bool simpleVR::StartVR()
 			memcpy(&projMatrixRaw[0], &h, sizeof(float) * 4 * 4);
 			memcpy(&projMatrixRaw[1], &h, sizeof(float) * 4 * 4);
 		}
+	}
+}
+
+bool simpleVR::StartVR()
+{
+	if (!vr::VR_IsHmdPresent())
+	{
+		//InitalizeVR();
+		_isConnected = false;
+		return _isConnected;
+	}
+	
+	if (_isConnected == false)
+	{
+		vr::EVRInitError eError = vr::VRInitError_None;
+		openVRSession = vr::VR_Init(&eError, vr::VRApplication_Scene);
+		openVRChaperone = vr::VRChaperone();
+		openVRModels = (vr::IVRRenderModels*)vr::VR_GetGenericInterface(vr::IVRRenderModels_Version, &eError);
+		vr::VRCompositor()->SetTrackingSpace(vr::TrackingUniverseSeated);
+
+		textureBounds[0] = vr::VRTextureBounds_t();
+		textureBounds[1] = vr::VRTextureBounds_t();
+		SetProjection({ 0.06f, 1000.0f });
 
 		
 		vr::HmdMatrix34_t pView[] = {

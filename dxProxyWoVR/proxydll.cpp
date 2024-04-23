@@ -2,6 +2,7 @@
 #include "game_extras.h"
 
 cIDirect3DDevice9* glIDirect3DDevice9;
+cIDirect3DDevice9Ex* glIDirect3DDevice9Ex;
 cIDirect3D9* glIDirect3D9;
 HINSTANCE glOriginalDll;
 HINSTANCE glThisInstance;
@@ -61,6 +62,7 @@ void InitInstance(HANDLE hModule)
 	glThisInstance = NULL;
 	glIDirect3D9 = NULL;
 	glIDirect3DDevice9 = NULL;
+	glIDirect3DDevice9Ex = NULL;
 
 	glThisInstance = (HINSTANCE)hModule;
 	if (!glOriginalDll) LoadOriginalDll();

@@ -129,6 +129,9 @@
     <ClInclude Include="clsMemManager.h">
       <Filter>game_extras\Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="structures.h">
+      <Filter>game_extras\Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="dll">

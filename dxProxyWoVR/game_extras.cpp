@@ -8,6 +8,7 @@
 #include "monitorLayout.h"
 #include "accountInformation.h"
 #include "clsMemManager.h"
+#include "structures.h"
 
 extern bool doLog;
 extern std::stringstream logError;
@@ -162,45 +163,46 @@ int cfg_flyingMountID = 0;
 int cfg_groundMountID = 0;
 int cfg_hmdOnward = 0;
 int cfg_uiMultiplier = 3;
+int cfg_gameMultiplier = 2;
 inputController input = {}; //{ { 0, 0, 0, 0, 0, 0, 0, 0, 0 } };
 
 //----
 // Game Declarations
 //----
-void(__thiscall* CGWorldFrameM__OnWorldUpdate)(void*) = (void(__thiscall*)(void*))0x004FA5F0;
-void(__thiscall* CGWorldFrameM__Render)(void*) = (void(__thiscall*)(void*))0x004F8EA0;
+//void(__thiscall* CGWorldFrameM__OnWorldUpdate)(void*) = (void(__thiscall*)(void*))0x004FA5F0;
+//void(__thiscall* CGWorldFrameM__Render)(void*) = (void(__thiscall*)(void*))0x004F8EA0;
 void(__thiscall* CalculateForwardMovement)(int, int) = (void(__thiscall*)(int, int))0x0098B0E0;
 void(__thiscall* CGMovementInfo__SetFacing)(int, float) = (void(__thiscall*)(int, float))0x00989B70;
 void(__thiscall* CGInputControl__SetControlBit)(int, int, int) = (void(__thiscall*)(int, int, int))0x005FA170;
 int (__thiscall* CGInputControl__UnsetControlBit)(int, int, int, int) = (int(__thiscall*)(int, int, int, int))0x005FA450;
 void(__thiscall* CGInputControl__UpdatePlayer)(int, int, int) = (void(__thiscall*)(int, int, int))0x005FBBC0;
-void(__thiscall* CGCamera__ZoomIn)(int, float, int, float) = (void(__thiscall*)(int, float, int, float))0x005FF950;
-void(__thiscall* CGCamera__ZoomOut)(int, float, int, float) = (void(__thiscall*)(int, float, int, float))0x005FFA60;
-void(__thiscall* CameraUpdateX)(int, float) = (void(__thiscall*)(int, float))0x005FE5F0;
-void(__thiscall* CameraUpdateY)(int, float) = (void(__thiscall*)(int, float))0x005FFC20;
-bool(__thiscall* IsFallingSwimmingFlying)(int) = (bool(__thiscall*)(int))0x006EABA0;
-
+//void(__thiscall* CGCamera__ZoomIn)(int, float, int, float) = (void(__thiscall*)(int, float, int, float))0x005FF950;
+//void(__thiscall* CGCamera__ZoomOut)(int, float, int, float) = (void(__thiscall*)(int, float, int, float))0x005FFA60;
+//void(__thiscall* CameraUpdateX)(int, float) = (void(__thiscall*)(int, float))0x005FE5F0;
+//void(__thiscall* CameraUpdateY)(int, float) = (void(__thiscall*)(int, float))0x005FFC20;
+//bool(__thiscall* IsFallingSwimmingFlying)(int) = (bool(__thiscall*)(int))0x006EABA0;
 void (*CastSpell)(int, int, int, int, int) = (void (*)(int, int, int, int, int))0x0080DA40;
-int (*ClntObjMgrObjectPtr)(unsigned int, unsigned int, unsigned int, const char*, unsigned int) = (int (*)(unsigned int, unsigned int, unsigned int, const char*, unsigned int))0x004D4DB0;
+
 
 float (*EnsureProperRadians)(float) = (float (*)(float))0x004C5090;
 int (*CGWorldFrame__GetActiveCamera)() = (int (*)())0x004F5960;
-int (*ClntObjMgrGetActivePlayer)() = (int(*)())0x004D3790;
-int (*ClntObjMgrGetActivePlayerObj)() = (int(*)())0x004038F0;
-int (*CMovementStatus__Read)(int, int) = (int(*)(int, int))0x004F4D40;
+//int (*ClntObjMgrGetActivePlayer)() = (int(*)())0x004D3790;
+stObjectManager*(*ClntObjMgrObjectPtr)(unsigned int, unsigned int, unsigned int, const char*, unsigned int) = (stObjectManager * (*)(unsigned int, unsigned int, unsigned int, const char*, unsigned int))0x004D4DB0;
+stObjectManager*(*ClntObjMgrGetActivePlayerObj)() = (stObjectManager*(*)())0x004038F0;
+//int (*CMovementStatus__Read)(int, int) = (int(*)(int, int))0x004F4D40;
 
-bool (*lua_ChangeActionBarPage)(int) = (bool (*)(int))0x005A7F60;
-int  (*lua_ToggleRun)() = (int (*)())0x005FAAE0;
-void (*lua_RunBinding)(char*, char*) = (void(*)(char*, char*))0x0055FAD0;
+//bool (*lua_ChangeActionBarPage)(int) = (bool (*)(int))0x005A7F60;
+//int  (*lua_ToggleRun)() = (int (*)())0x005FAAE0;
+//void (*lua_RunBinding)(char*, char*) = (void(*)(char*, char*))0x0055FAD0;
 void (*lua_TargetNearestEnemy)(int*) = (void(*)(int*))0x00525AD0;
 void (*lua_Dismount)() = (void(*)())0x0051D170;
-bool (*lua_IsMounted)(int) = (bool(*)(int))0x006125A0;
+//bool (*lua_IsMounted)(int) = (bool(*)(int))0x006125A0;
 
-void (*lua_MoveView)() = (void(*)())0x005FF000;
-void (*lua_CameraOrSelectOrMoveStart)() = (void(*)())0x005FC6C0;
-void (*lua_CameraOrSelectOrMoveStop)(int*) = (void(*)(int*))0x005FC730;
-void (*lua_TurnOrActionStart)() = (void(*)())0x005FC610;
-void (*lua_TurnOrActionStop)() = (void(*)())0x005FC680;
+//void (*lua_MoveView)() = (void(*)())0x005FF000;
+//void (*lua_CameraOrSelectOrMoveStart)() = (void(*)())0x005FC6C0;
+//void (*lua_CameraOrSelectOrMoveStop)(int*) = (void(*)(int*))0x005FC730;
+//void (*lua_TurnOrActionStart)() = (void(*)())0x005FC610;
+//void (*lua_TurnOrActionStop)() = (void(*)())0x005FC680;
 
 
 void RunFrameUpdate();
@@ -334,6 +336,7 @@ void writeConfigFile()
         cfgFile << "groundMountID: " << cfg_groundMountID << std::endl;
         cfgFile << "hmdOnward: " << cfg_hmdOnward << std::endl;
         cfgFile << "uiMultiplier: " << cfg_uiMultiplier << std::endl;
+        cfgFile << "gameMultiplier: " << cfg_gameMultiplier << std::endl;
         cfgFile.close();
     }
     else
@@ -365,6 +368,7 @@ void readConfigFile()
     std::string s_cfg_groundMountID = "";
     std::string s_cfg_hmdOnward = "";
     std::string s_cfg_uiMultiplier = "";
+    std::string s_cfg_gameMultiplier = "";
 
     cfgFile.open(g_CONFIG_FILE);
     if (cfgFile.is_open())
@@ -385,6 +389,7 @@ void readConfigFile()
         std::getline(cfgFile, s_cfg_groundMountID);
         std::getline(cfgFile, s_cfg_hmdOnward);
         std::getline(cfgFile, s_cfg_uiMultiplier);
+        std::getline(cfgFile, s_cfg_gameMultiplier);
         cfgFile.close();
 
         //----
@@ -403,6 +408,7 @@ void readConfigFile()
         s_cfg_groundMountID.erase(0, s_cfg_groundMountID.find(": ") + 2);
         s_cfg_hmdOnward.erase(0, s_cfg_hmdOnward.find(": ") + 2);
         s_cfg_uiMultiplier.erase(0, s_cfg_uiMultiplier.find(": ") + 2);
+        s_cfg_gameMultiplier.erase(0, s_cfg_gameMultiplier.find(": ") + 2);
 
         //----
         // set the config options
@@ -420,6 +426,9 @@ void readConfigFile()
         cfg_groundMountID = std::stoi(s_cfg_groundMountID);
         cfg_hmdOnward = std::stoi(s_cfg_hmdOnward);
         cfg_uiMultiplier = std::stoi(s_cfg_uiMultiplier);
+        cfg_gameMultiplier = std::stoi(s_cfg_gameMultiplier);
+        if (cfg_uiMultiplier < 1) cfg_uiMultiplier = 1;
+        if (cfg_gameMultiplier < 1) cfg_gameMultiplier = 1;
 
         //hiddenTexture = (IDirect3DTexture9*)std::stol(s_cfg_groundMountID, NULL, 16);
     }
@@ -437,7 +446,7 @@ void CreateTextures(ID3D11Device* devDX11, IDirect3DDevice9* devDX9, POINT textu
 
         BackBuffer[i].SetWidthHeight(textureSize.x, textureSize.y);
         BackBuffer[i].pSharedHandle = BackBuffer11[i].pSharedHandle;
-        if(!BackBuffer[i].Create(devDX9, false, true, false, true))
+        if (!BackBuffer[i].Create(devDX9, false, true, false, true))
             logError << BackBuffer[i].GetErrors();
 
 
@@ -518,6 +527,14 @@ void DestroyTextures()
     for (int i = 0; i < (handWatchCount * 2); i++)
         handWatchList[i].Release();
 
+    cursor.Release();
+
+    uiDepth.Release();
+    uiRenderCheckSystem.Release();
+    uiRenderCheck.Release();
+    uiRenderMask.Release();
+    uiRender.Release();
+
     for (int i = 0; i < 6; i++)
     {
         BackBuffer11[i].Release();
@@ -525,14 +542,7 @@ void DestroyTextures()
 
         DepthBuffer11[i].Release();
         DepthBuffer[i].Release();
-    }
-
-    uiRender.Release();
-    uiRenderMask.Release();
-    uiRenderCheck.Release();
-    uiRenderCheckSystem.Release();
-    uiDepth.Release();
-    cursor.Release();
+    }    
 }
 
 
@@ -882,9 +892,10 @@ void (msub_684D70)(int a, int b, int c)
     //if (doLog) logError << "CalcWindowSize Post : " << *(int*)(c + 0x0) << " : " << *(int*)(c + 0x4) << " : " << *(int*)(c + 0x8) << " : " << *(int*)(c + 0xC) << std::endl;
 }
 
+//----
 // Create Window
-void(__thiscall* sub_6A08D0)(void*, int) = (void(__thiscall*)(void*, int))0x006A08D0;
-void(__fastcall msub_6A08D0)(void* ecx, void* edx, int a)
+//----
+void(msub_6A08D0_pre)()
 {
     svr->PreloadVR();
 
@@ -894,15 +905,16 @@ void(__fastcall msub_6A08D0)(void* ecx, void* edx, int a)
         hmdBufferSize.y = 1844;
     }
 
-    hmdBufferSize.x *= 2;
-    hmdBufferSize.y *= 2;
+    hmdBufferSize.x *= cfg_gameMultiplier;
+    hmdBufferSize.y *= cfg_gameMultiplier;
 
     //if (doLog) logError << "CreateWindow Pre : " << *(float*)((int)ecx + 0x16C) << " : " << *(float*)((int)ecx + 0x170) << std::endl;
 
     SetProcessDpiAwarenessContext(DPI_AWARENESS_CONTEXT_SYSTEM_AWARE);
+}
 
-    sub_6A08D0(ecx, a);
-
+void(msub_6A08D0_post)(void* ecx)
+{
     int xOffset = 0;// -(wtfSize.x / 2.0f);
     int yOffset = 0;// -(wtfSize.y / 2.0f);
     *(float*)((int)ecx + 0x16C) = wtfSize.y;
@@ -924,10 +936,27 @@ void(__fastcall msub_6A08D0)(void* ecx, void* edx, int a)
     //if (doLog) logError << "CreateWindow Post : " << *(float*)((int)ecx + 0x16C) << " : " << *(float*)((int)ecx + 0x170) << std::endl;
 }
 
+// Create Window
+void(__thiscall* sub_68EBB0)(void*, int) = (void(__thiscall*)(void*, int))0x0068EBB0;
+void(__fastcall msub_68EBB0)(void* ecx, void* edx, int a)
+{
+    msub_6A08D0_pre();
+    sub_68EBB0(ecx, a);
+    msub_6A08D0_post(ecx);
+}
 
+void(__thiscall* sub_6A08D0)(void*, int) = (void(__thiscall*)(void*, int))0x006A08D0; // Ex
+void(__fastcall msub_6A08D0)(void* ecx, void* edx, int a)
+{
+    msub_6A08D0_pre();
+    sub_6A08D0(ecx, a);
+    msub_6A08D0_post(ecx);
+}
+
+//----
 // Create DX Device
-bool(__thiscall* sub_6A2040)(void*, int) = (bool(__thiscall*)(void*, int))0x006A2040;
-bool(__fastcall msub_6A2040)(void* ecx, void* edx, int a)
+//----
+void msub_6A2040_pre(int a)
 {
     //if (doLog) logError << "-- Create DX Device" << std::endl;
     wtfSize.x = *(int*)(a + 0x14);
@@ -943,9 +972,10 @@ bool(__fastcall msub_6A2040)(void* ecx, void* edx, int a)
         wtfSize.x = primarySize.x * (1.0f + recountOmenPercent);
         wtfSize.y = (wtfSize.x / 1824.0f) * 475;
     }
+}
 
-    bool retVal = sub_6A2040(ecx, a);
-
+void msub_6A2040_post(void* ecx, bool* retVal)
+{
     svr->StartVR();
     if (svr->HasErrors())
         logError << svr->GetErrors();
@@ -1015,24 +1045,39 @@ bool(__fastcall msub_6A2040)(void* ecx, void* edx, int a)
         if (cfg_OSK && isRunningAsAdmin)
             RunOSKEnable();
 
-        bool retVal = true;
         //setActionHandlesGame(&steamInput);
-        if (retVal) { retVal = setActiveJSON(g_VR_PATH + "actions.json"); }
-        if (retVal) { retVal = setActionHandlesGame(&input); }
+        if (*retVal) { *retVal = setActiveJSON(g_VR_PATH + "actions.json"); }
+        if (*retVal) { *retVal = setActionHandlesGame(&input); }
         //if (retVal) { retVal = setActionHandlesMenu(&input); }
-
     }
+}
+
+
+bool(__thiscall* sub_6904D0)(void*, int) = (bool(__thiscall*)(void*, int))0x006904D0;
+bool(__fastcall msub_6904D0)(void* ecx, void* edx, int a)
+{
+    msub_6A2040_pre(a);
+    bool retVal = sub_6904D0(ecx, a);
+    msub_6A2040_post(ecx, &retVal);
     return retVal;
 }
 
+// Create DX Device
+bool(__thiscall* sub_6A2040)(void*, int) = (bool(__thiscall*)(void*, int))0x006A2040; // Ex
+bool(__fastcall msub_6A2040)(void* ecx, void* edx, int a)
+{
+    msub_6A2040_pre(a);
+    bool retVal = sub_6A2040(ecx, a);
+    msub_6A2040_post(ecx, &retVal);
+    return retVal;
+}
+//----
 // Close DX Device
-void(__thiscall* sub_6A1F40)(void*) = (void(__thiscall*)(void*))0x006A1F40;
-void(__fastcall msub_6A1F40)(void* ecx, void* edx)
+//----
+void msub_6A1F40_pre()
 {
     if (svr->isEnabled())
     {
-        svr->StopVR();
-
         RunOSKDisable();
 
         DestroyTextures();
@@ -1040,9 +1085,29 @@ void(__fastcall msub_6A1F40)(void* ecx, void* edx)
         DestroyShaders();
 
         devDX11.Release();
+        svr->StopVR();
     }
-    sub_6A1F40(ecx);
+}
+
+void msub_6A1F40_post()
+{
     //if (doLog) logError << "-- Close DX Device" << std::endl;
+}
+
+void(__thiscall* sub_6903B0)(void*) = (void(__thiscall*)(void*))0x006903B0;
+void(__fastcall msub_6903B0)(void* ecx, void* edx)
+{
+    msub_6A1F40_pre();
+    sub_6903B0(ecx);
+    msub_6A1F40_post();
+}
+
+void(__thiscall* sub_6A1F40)(void*) = (void(__thiscall*)(void*))0x006A1F40; // Ex
+void(__fastcall msub_6A1F40)(void* ecx, void* edx)
+{
+    msub_6A1F40_pre();
+    sub_6A1F40(ecx);
+    msub_6A1F40_post();
 }
 
 // Begin SceneSetup
@@ -1085,7 +1150,7 @@ void(__fastcall msub_6E0840)(void* ecx_, void* edx_, int a, int b, int c)
     if (curEye == 0 || curEye == 1) {
         showHidePlayer = 1;
     }
-    *(BYTE*)((DWORD)ecx_ + 0x0CB) = 255;
+    ((stObjectManager*)ecx_)->alpha4 = 255;
     //*(DWORD*)0xC9D540 = showHidePlayer;
     sub_6E0840(ecx_, a, b, c);
 }
@@ -1095,7 +1160,6 @@ void(__thiscall* sub_5FF530)(void*) = (void(__thiscall*)(void*))0x005FF530;
 void(__fastcall msub_5FF530)(void* ecx, void* edx)
 {
     fnUpdateCameraController((int)ecx);
-
     sub_5FF530(ecx);
 }
 
@@ -1111,19 +1175,16 @@ void(__fastcall msub_606F90)(void* ecx, void* edx, int a, int b)
 void (*sub_77EFF0)(int, float) = (void (*)(int, float))0x0077EFF0;
 void (msub_77EFF0)(int a, float b)
 {
-    //sub_77EFF0(a, b);
-    int bones = 0;
-    int playerObj = ClntObjMgrGetActivePlayerObj();
-    if (playerObj) {
-        bones = *(int*)(playerObj + 0xB4);
-    }
-
     b = b / 2.f;
     sub_77EFF0(a, b);
 }
 
-
-
+// Dynamic model animations
+void(__thiscall* sub_82F0F0)(void*, int, int, int, int, int) = (void(__thiscall*)(void*, int, int, int, int, int))0x0082F0F0;
+void(__fastcall msub_82F0F0)(void* ecx, void* edx, int a, int b, int c, int d, int e)
+{
+    sub_82F0F0(ecx, a, b, c, d, e);
+}
 
 
 // Update Model Proj
@@ -1156,8 +1217,6 @@ void(__fastcall msub_6A9B40)(void* ecx, void* edx, int a)
     }
 }
 
-
-
 // Render Mouse
 void(__thiscall* sub_687A90)(void*) = (void(__thiscall*)(void*))0x00687A90;
 void(__fastcall msub_687A90)(void* ecx, void* edx)
@@ -1179,6 +1238,8 @@ void(__thiscall* sub_494EE0)(int, int) = (void(__thiscall*)(int, int))0x00494EE0
 void(__thiscall* sub_495410)(void*) = (void(__thiscall*)(void*))0x00495410;
 void(__fastcall msub_495410)(void* ecx, void* edx)
 {
+    stObjectManager* playerObj = ClntObjMgrGetActivePlayerObj();
+
     if (svr->isEnabled())
     {
         HRESULT result = S_OK;
@@ -1205,8 +1266,6 @@ void(__fastcall msub_495410)(void* ecx, void* edx)
         mViewport.Height = uiBufferSize.y / 4;
         mViewport.MinZ = 0.0f;
         mViewport.MaxZ = 1.0f;
-
-        int playerObj = ClntObjMgrGetActivePlayerObj();
 
         float a[] = { 0, 0, 0, 0 };
         float b[] = { 0, 0 };
@@ -1339,7 +1398,7 @@ void(__fastcall msub_495410)(void* ecx, void* edx)
             XMMATRIX viewMatrix = XMMatrixTranspose(XMMatrixInverse(0, (matEyeOffset[i] * matHMDPos)));
             XMMATRIX worldMatrix = XMMatrixIdentity();
             projectionMatrix._33 = cfg_uiOffsetD;// -0.938f;
-            projectionMatrix._34 =  -0.06f;
+            //projectionMatrix._34 =  -0.06f;
             
             devDX9->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 
@@ -1479,7 +1538,9 @@ void(__fastcall msub_4A8720)()
         // Update near/far clip
         //----
         *(float*)0xADEED4 = 0.06f;
-        *(float*)0xCD7748 = 1000.0f;
+        //*(float*)0xCD7748 = 1000.0f;
+
+        svr->SetProjection({ *(float*)0xADEED4, *(float*)0xCD7748 });
 
         RunControllerGame();
         sub_4A8720();
@@ -1556,8 +1617,9 @@ void RunFrameUpdate()
  
     float aspect = (float)screenLayout.width / (float)screenLayout.height;
     POINT halfScreen = { screenLayout.width / 2, screenLayout.height / 2 };
-    int playerObj = ClntObjMgrGetActivePlayerObj();
-    
+    stObjectManager* playerObj = ClntObjMgrGetActivePlayerObj();
+
+
     //----
     // Add all the interactable items to the intersect list
     //----
@@ -1754,15 +1816,15 @@ void RunFrameUpdate()
     {
         currentCursorID = (cursorID - 1);
 
-        float W = cursor.width / 26;
-        float H = cursor.height / 2;
-        float x = (currentCursorID % 26) * W;
-        float y = (int)(currentCursorID / 26) * H; // determin if were on the top or bottom row
+        int W = cursor.width / 26;
+        int H = cursor.height / 2;
+        int x = (currentCursorID % 26) * W;
+        int y = (currentCursorID / 26) * H; // determin if were on the top or bottom row
 
-        float uv[] = { x / cursor.width,
-                       y / cursor.height,
-                      (x + W) / cursor.width,
-                      (y + H) / cursor.height,
+        float uv[] = { (float)x / cursor.width,
+                       (float)y / cursor.height,
+                       (float)(x + W) / cursor.width,
+                       (float)(y + H) / cursor.height,
         };
 
         std::vector<float> squareData = {
@@ -1926,9 +1988,12 @@ void InitDetours(HANDLE hModule)
 
     DetourAttach((PVOID*)&sub_869DB0, (PVOID)msub_869DB0); // SetClientMouseResetPoint
     DetourAttach((PVOID*)&sub_684D70, (PVOID)msub_684D70); // Calculate window size
-    DetourAttach((PVOID*)&sub_6A08D0, (PVOID)msub_6A08D0); // Create Window
-    DetourAttach((PVOID*)&sub_6A2040, (PVOID)msub_6A2040); // Create DX Device
-    DetourAttach((PVOID*)&sub_6A1F40, (PVOID)msub_6A1F40); // Close DX Device
+    DetourAttach((PVOID*)&sub_68EBB0, (PVOID)msub_68EBB0); // Create Window
+    DetourAttach((PVOID*)&sub_6A08D0, (PVOID)msub_6A08D0); // Create Window Ex
+    DetourAttach((PVOID*)&sub_6904D0, (PVOID)msub_6904D0); // Create DX Device
+    DetourAttach((PVOID*)&sub_6A2040, (PVOID)msub_6A2040); // Create DX Device Ex
+    DetourAttach((PVOID*)&sub_6903B0, (PVOID)msub_6903B0); // Close DX Device
+    DetourAttach((PVOID*)&sub_6A1F40, (PVOID)msub_6A1F40); // Close DX Device Ex
     DetourAttach((PVOID*)&sub_6A73E0, (PVOID)msub_6A73E0); // Begin SceneSetup
     DetourAttach((PVOID*)&sub_6A7540, (PVOID)msub_6A7540); // End SceneSetup
     DetourAttach((PVOID*)&sub_6A7610, (PVOID)msub_6A7610); // Present Scene
@@ -1937,6 +2002,7 @@ void InitDetours(HANDLE hModule)
     DetourAttach((PVOID*)&sub_5FF530, (PVOID)msub_5FF530); // Update freelook Camera
     DetourAttach((PVOID*)&sub_606F90, (PVOID)msub_606F90); // Update Camera Fn
     DetourAttach((PVOID*)&sub_77EFF0, (PVOID)msub_77EFF0); // Slows animation value
+    DetourAttach((PVOID*)&sub_82F0F0, (PVOID)msub_82F0F0); // Dynamic model animations
     DetourAttach((PVOID*)&sub_6A9B40, (PVOID)msub_6A9B40); // Update Model Proj
     DetourAttach((PVOID*)&sub_687A90, (PVOID)msub_687A90); // Render Mouse
     DetourAttach((PVOID*)&sub_494F30, (PVOID)msub_494F30);
@@ -1974,9 +2040,12 @@ void ExitDetours()
 
     DetourDetach((PVOID*)&sub_869DB0, (PVOID)msub_869DB0); // SetClientMouseResetPoint
     DetourDetach((PVOID*)&sub_684D70, (PVOID)msub_684D70); // Calculate window size
-    DetourDetach((PVOID*)&sub_6A08D0, (PVOID)msub_6A08D0); // Create Window
-    DetourDetach((PVOID*)&sub_6A2040, (PVOID)msub_6A2040); // Create DX Device
-    DetourDetach((PVOID*)&sub_6A1F40, (PVOID)msub_6A1F40); // Close DX Device
+    DetourDetach((PVOID*)&sub_68EBB0, (PVOID)msub_68EBB0); // Create Window
+    DetourDetach((PVOID*)&sub_6A08D0, (PVOID)msub_6A08D0); // Create Window Ex
+    DetourDetach((PVOID*)&sub_6904D0, (PVOID)msub_6904D0); // Create DX Device
+    DetourDetach((PVOID*)&sub_6A2040, (PVOID)msub_6A2040); // Create DX Device Ex
+    DetourDetach((PVOID*)&sub_6903B0, (PVOID)msub_6903B0); // Close DX Device
+    DetourDetach((PVOID*)&sub_6A1F40, (PVOID)msub_6A1F40); // Close DX Device Ex
     DetourDetach((PVOID*)&sub_6A73E0, (PVOID)msub_6A73E0); // Begin SceneSetup
     DetourDetach((PVOID*)&sub_6A7540, (PVOID)msub_6A7540); // End SceneSetup
     DetourDetach((PVOID*)&sub_6A7610, (PVOID)msub_6A7610); // Present Scene
@@ -1985,6 +2054,7 @@ void ExitDetours()
     DetourDetach((PVOID*)&sub_5FF530, (PVOID)msub_5FF530); // Update freelook Camera
     DetourDetach((PVOID*)&sub_606F90, (PVOID)msub_606F90); // Update Camera Fn
     DetourDetach((PVOID*)&sub_77EFF0, (PVOID)msub_77EFF0); // Slows animation value
+    DetourDetach((PVOID*)&sub_82F0F0, (PVOID)msub_82F0F0); // Dynamic model animations
     DetourDetach((PVOID*)&sub_6A9B40, (PVOID)msub_6A9B40); // Update Model Proj
     DetourDetach((PVOID*)&sub_687A90, (PVOID)msub_687A90); // Render Mouse
     DetourDetach((PVOID*)&sub_494F30, (PVOID)msub_494F30);
@@ -2027,53 +2097,34 @@ bool rightStickYCenter = false;
 
 void setVerticalRotation(float rotation)
 {
-    int playerObj = ClntObjMgrGetActivePlayerObj();
-    if (playerObj)
-    {
-        int camera = CGWorldFrame__GetActiveCamera();
-        int objData = *(int*)(playerObj + 0xD8);
-        if (objData && camera)
-            *(float*)(objData + 0x24) = rotation;
-    }
+    stObjectManager* playerObj = ClntObjMgrGetActivePlayerObj();
+    int camera = CGWorldFrame__GetActiveCamera();
+    if (playerObj && playerObj->ptrObjectData && camera)
+        playerObj->ptrObjectData->objPitch = rotation;
 }
 
 void setHorizontalRotation(float rotation, float camOffset, bool mouseHold)
 {
-    int playerObj = ClntObjMgrGetActivePlayerObj();
-    if (playerObj)
+    stObjectManager* playerObj = ClntObjMgrGetActivePlayerObj();
+    int camera = CGWorldFrame__GetActiveCamera();
+    if (playerObj && playerObj->ptrObjectData && camera)
     {
-        int camera = CGWorldFrame__GetActiveCamera();
-        int objData = *(int*)(playerObj + 0xD8);
-        if (objData && camera)
-        {
-            //rotation = EnsureProperRadians(rotation);
-            //*(float*)(objData + 0x20) = rotation;
-            CGMovementInfo__SetFacing(objData, rotation);
-            *(float*)(camera + 0x11C) = -(rotation - camOffset);
-            if (mouseHold)
-                *(float*)(camera + 0x11C) = camOffset;
-            //else
-            //    *(float*)(camera + 0x11C) = -(rotation - camOffset);
-        }
+        CGMovementInfo__SetFacing((int)playerObj->ptrObjectData, rotation);
+        *(float*)(camera + 0x11C) = -(rotation - camOffset);
+        if (mouseHold)
+            *(float*)(camera + 0x11C) = camOffset;
     }
 }
 
 bool IsPlayerRunning()
 {
-    int playerObj = ClntObjMgrGetActivePlayerObj();
-    if (playerObj)
-    {
-        int objData = *(int*)(playerObj + 0xD8);
-        if (objData)
-        {
-            int movementStatus = *(int*)(objData + 0x44);
-            return ((movementStatus & 0x100) == 0);
-        }
-    }
+    stObjectManager* playerObj = ClntObjMgrGetActivePlayerObj();
+    if (playerObj && playerObj->ptrObjectData)
+        return ((playerObj->ptrObjectData->MovementStatus & 0x100) == 0);
     return false;
 }
 
-int objManagerGetTargetObj()
+stObjectManager* objManagerGetTargetObj()
 {
     // RayClickTarget/Mouseover
     /*
@@ -2094,31 +2145,25 @@ int objManagerGetTargetObj()
     return 0;
 }
 
-float DiffObjFaceObj(int viewerObj, int targetObj)
+float DiffObjFaceObj(stObjectManager* viewerObj, stObjectManager* targetObj)
 {
-    if (viewerObj && targetObj)
+    if (viewerObj && viewerObj->ptrObjectData && targetObj && targetObj->ptrObjectData)
     {
-        int objData = *(int*)(viewerObj + 0xD8);
-        int trgData = *(int*)(targetObj + 0xD8);
+        Vector3 oV = viewerObj->ptrObjectData->objPos;
+        Vector3 tV = targetObj->ptrObjectData->objPos;
+        float curRotation = viewerObj->ptrObjectData->objRot;
 
-        if (objData && trgData)
-        {
-            Vector3 oV = *(Vector3*)(objData + 0x10);
-            Vector3 tV = *(Vector3*)(trgData + 0x10);
-            float curRotation = *(float*)(objData + 0x20);
+        Vector3 distance;
+        distance.x = tV.x - oV.x;
+        distance.y = tV.y - oV.y;
+        distance.z = tV.z - oV.z;
 
-            Vector3 distance;
-            distance.x = tV.x - oV.x;
-            distance.y = tV.y - oV.y;
-            distance.z = tV.z - oV.z;
-
-            float posRotation = EnsureProperRadians(std::atan2f(distance.y, distance.x));
-            return posRotation;
-            //if (std::fabs(posRotation - curRotation) > 0.5f)
-            //    return posRotation - curRotation;
-            //else
-            //    return posRotation - gRotation;
-        }
+        float posRotation = EnsureProperRadians(std::atan2f(distance.y, distance.x));
+        return posRotation;
+        //if (std::fabs(posRotation - curRotation) > 0.5f)
+        //    return posRotation - curRotation;
+        //else
+        //    return posRotation - gRotation;
     }
     return 0;
 }
@@ -2163,9 +2208,9 @@ void RunControllerGame()
     bool bumperPressedR = false;
 
 
-    int playerObj = ClntObjMgrGetActivePlayerObj();
+    stObjectManager* playerObj = ClntObjMgrGetActivePlayerObj();
     int camera = CGWorldFrame__GetActiveCamera();
-    int targetObj = objManagerGetTargetObj();
+    stObjectManager* targetObj = objManagerGetTargetObj();
     int eventTick = *(int*)0x00B499A4;
     int inputControl = *(int*)0x00C24954;
     int mouseHold = *(int*)0x00D4156C;
@@ -2739,7 +2784,7 @@ void RunControllerGame()
         int objData = 0;
         if (playerObj)
         {
-            objData = *(int*)(playerObj + 0xD8);
+            objData = (int)playerObj->ptrObjectData;
             //if (objData)
             //    isFSF = IsFallingSwimmingFlying(objData);
         }

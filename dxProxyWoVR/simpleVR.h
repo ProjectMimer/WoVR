@@ -50,6 +50,7 @@ public:
 	bool isEnabled();
 	void Recenter();
 	POINT GetBufferSize();
+	void SetProjection(vr::HmdVector2_t depth);
 	void SetActionPose(vr::HmdMatrix34_t matPose, poseType poseType);
 	void SetSkeletalPose(vr::VRBoneTransform_t* boneArray, int boneCount, poseType poseType);
 	void SetFramePose();
