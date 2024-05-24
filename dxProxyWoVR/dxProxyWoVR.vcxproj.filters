@@ -73,6 +73,12 @@
     <ClCompile Include="clsMemManager.cpp">
       <Filter>game_extras\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="RenderCube.cpp">
+      <Filter>game_extras\RenderObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderXYZGismo.cpp">
+      <Filter>game_extras\RenderObjects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cIDirect3D9.h">

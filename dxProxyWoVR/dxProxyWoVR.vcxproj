@@ -138,11 +138,13 @@
     <ClCompile Include="PixelShaderTexture.cpp" />
     <ClCompile Include="PixelShaderWithMouseDot.cpp" />
     <ClCompile Include="proxydll.cpp" />
+    <ClCompile Include="RenderCube.cpp" />
     <ClCompile Include="RenderCurvedUI.cpp" />
     <ClCompile Include="RenderMaskUI.cpp" />
     <ClCompile Include="RenderOSK.cpp" />
     <ClCompile Include="RenderRayLine.cpp" />
     <ClCompile Include="RenderSquare.cpp" />
+    <ClCompile Include="RenderXYZGismo.cpp" />
     <ClCompile Include="simpleVR.cpp" />
     <ClCompile Include="steamVR.cpp" />
     <ClCompile Include="VertexShaderColor.cpp" />

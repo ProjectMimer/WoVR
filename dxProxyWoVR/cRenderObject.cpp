@@ -21,6 +21,9 @@ bool RenderObject::SetVertexBuffer(std::vector<float> vertices, int itmStride, b
 	if (vertices.size() > 0)
 	{
 		HRESULT result = S_OK;
+		if (!ignoreCreateBuffer && vertexBuffer)
+			result = vertexBuffer->Release();
+
 		if (!ignoreCreateBuffer)
 			result = dev->CreateVertexBuffer(vertices.size() * sizeof(float), D3DUSAGE_WRITEONLY, NULL, usage, &vertexBuffer, NULL);
 
@@ -48,6 +51,9 @@ bool RenderObject::SetIndexBuffer(std::vector<short> indices, bool ignoreCreateB
 	if (indices.size() > 0)
 	{
 		HRESULT result = S_OK;
+		if (!ignoreCreateBuffer && indexBuffer)
+			result = indexBuffer->Release();
+
 		if (!ignoreCreateBuffer)
 			result = dev->CreateIndexBuffer(indices.size() * sizeof(short), D3DUSAGE_WRITEONLY, D3DFMT_INDEX16, usage, &indexBuffer, NULL);
 		

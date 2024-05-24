@@ -112,3 +112,10 @@ class RenderRayLine : public RenderObject
 public:
 	RenderRayLine(IDirect3DDevice9* tdev);
 };
+
+class RenderXYZGizmo : public RenderObject
+{
+
+public:
+	RenderXYZGizmo(IDirect3DDevice9* tdev);
+};

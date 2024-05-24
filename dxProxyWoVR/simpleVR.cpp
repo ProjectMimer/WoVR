@@ -3,6 +3,7 @@
 
 simpleVR::simpleVR(bool showLogs) : printLogs(showLogs)
 {
+	InitalizeVR();
 }
 
 simpleVR::~simpleVR()
@@ -360,6 +361,10 @@ void simpleVR::SetFramePose()
 				matPose.m[0][3], matPose.m[1][3], matPose.m[2][3], 1.0f
 			};
 			memcpy(hmdMatrix.matrix, poseMatrix, sizeof(float) * 4 * 4);
+		}
+		else
+		{
+			memcpy(hmdMatrix.matrix, identMatrix.matrix, sizeof(float) * 4 * 4);
 		}
 
 		//----

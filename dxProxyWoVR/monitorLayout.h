@@ -25,7 +25,7 @@ struct stMonitorLayout
     stMonitorLayout()
     {
         EnumDisplayMonitors(0, 0, MonitorEnum, (LPARAM)this);
-        for (int monitorIndex = 0; monitorIndex < iMonitors.size(); monitorIndex++)
+        for (int monitorIndex = 0; monitorIndex < (int)iMonitors.size(); monitorIndex++)
             if (rcMonitors[monitorIndex].top == 0 && rcMonitors[monitorIndex].left == 0)
                 primary = monitorIndex;
     }

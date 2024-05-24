@@ -4,6 +4,7 @@ RenderSquare::RenderSquare(IDirect3DDevice9* tdev) : RenderObject(tdev)
 {
 	if (tdev == nullptr)
 		return;
+
 	std::vector<float> vertices =
 	{
 		 -1, -1,  0,	0, 1,

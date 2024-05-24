@@ -4,6 +4,7 @@ RenderCurvedUI::RenderCurvedUI(IDirect3DDevice9* tdev) : RenderObject(tdev)
 {
 	if (tdev == nullptr)
 		return;
+
 	// x,y,z,  u,v
 	std::vector<float> vertices =
 	{

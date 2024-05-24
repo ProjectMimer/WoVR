@@ -15,6 +15,8 @@
 #include "stBasicTexture.h"
 //#include "simpleXR.h"
 
+using namespace DirectX;
+
 #define DllExport __declspec(dllexport)
 #define DllImport __declspec(dllimport)
 
